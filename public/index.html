@@ -9,14 +9,14 @@
 		<title>Read Only by HTML5 UP</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="/assets/css/main.css" />
 	</head>
 	<body class="is-preload">
 
 		<!-- Header -->
 			<section id="header">
 				<header>
-					<span class="image avatar"><img src="images/avatar.jpg" alt="" /></span>
+					<span class="image avatar"><img src="/images/avatar.jpg" alt="" /></span>
 					<h1 id="logo"><a href="#">Patrick Mayer</a></h1>
 
 					<p>I got reprogrammed by a rogue AI<br />
@@ -50,7 +50,7 @@
 						<!-- One -->
 							<section id="one">
 								<div class="image main" data-position="center">
-									<img src="images/banner.jpg" alt="" />
+									<img src="/images/banner.jpg" alt="" />
 								</div>
 								<div class="container">
 									<header class="major">
@@ -87,21 +87,21 @@
 									<p>Here are some of my past projects that I have completed.</p>
 									<div class="features">
 										<article>
-											<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+											<a href="#" class="image"><img src="/images/pic01.jpg" alt="" /></a>
 											<div class="inner">
 												<a href="https://public.tableau.com/app/profile/patrick.mayer1264/viz/Project360_17395663687930/Dashboard1?publish=yes" target="_blank" rel="noopener noreferrer">Visit Example</a>
 												<p>Created a Tableau Dashboard based on the National Highway Traffic Safety System to observe which types of vehicles and brands result in highest percentage of fatalities.</p>
 											</div>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
+											<a href="#" class="image"><img src="/images/pic02.jpg" alt="" /></a>
 											<div class="inner">
 												<a href="https://gavin-mccorry.shinyapps.io/Olympic-Medals-App/" target="_blank" rel="noopener noreferrer">Olympic Medals relationship with GDP Immigration Rates</a>
 												<p>Worked in a pair to analyze the relationship between Olympic Medals won by countries and their GDP and Immigration rates. We cleaned our data through R and published it in a Shiny App.</p>
 											</div>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
+											<a href="#" class="image"><img src="/images/pic03.jpg" alt="" /></a>
 											<div class="inner">
 												<a href="https://github.com/AugustanaCSC305Fall23/DowitcherRepo" target="_blank" rel="noopener noreferrer">Gymnastic Planner Software</a>
 												<p>Worked in a team environment with a client to create a software to allow gymnastics coaches to create and plan weekly exercises.</p>
@@ -118,7 +118,7 @@
 									<h3>Contact Me</h3>
 									<p>Thank you for your interest in reaching out!</p>
 
-									<form method="post" action="#">
+									<form id="contactForm">
 										<div class="row gtr-uniform">
 											<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
 											<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
@@ -132,6 +132,8 @@
 											</div>
 										</div>
 									</form>
+								</div>
+								<p id="statusMessage"></p>
 								</div>
 							</section>
 
@@ -480,6 +482,52 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			</div>
 
 		<!-- Scripts -->
+			<script>
+				// Select the form and the status message paragraph
+				const form = document.getElementById('contactForm');
+				const statusMessage = document.getElementById('statusMessage');
+
+				// Add submit event listener
+				form.addEventListener('submit', async (e) => {
+					e.preventDefault();  // Prevent default form submission
+
+					// Collect form data
+					const formData = new FormData(form);
+					const data = new URLSearchParams(formData);
+
+					try {
+						// Send the form data to the server using fetch
+						const response = await fetch('/send', {
+							method: 'POST',
+							body: data,
+						});
+
+						const result = await response.json();
+
+						// Display success or failure message
+						if (result.success) {
+							statusMessage.textContent = 'Email sent successfully! Thank you for reaching out :)';
+							statusMessage.style.color = 'green';
+						} else {
+							statusMessage.textContent = 'Something went wrong. Please try again.';
+							statusMessage.style.color = 'red';
+						}
+					} catch (error) {
+						console.error(error);
+						statusMessage.textContent = 'There was an error sending the email.';
+						statusMessage.style.color = 'red';
+					}
+				});
+			</script>
+			<style>
+				/* Center and bold the status message */
+				#statusMessage {
+					text-align: center;  /* Centers the message horizontally */
+					font-weight: bold;   /* Makes the text bold */
+					font-size: 18px;     /* Optional: Adjusts the font size */
+					margin-top: 20px;    /* Adds some space above the message */
+				}
+			</style>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
