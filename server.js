@@ -8,13 +8,13 @@ const app = express();
 const port = 3000;
 
 // Middleware to parse form data
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname)));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Serve the index.html from the frontend folder
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Your POST route for the form submission
