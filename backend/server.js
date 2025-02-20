@@ -8,13 +8,13 @@ const app = express();
 const port = 3000;
 
 // Middleware to parse form data
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve the index.html from the public folder
+// Serve the index.html from the frontend folder
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
 
 // Your POST route for the form submission
@@ -33,7 +33,7 @@ app.post('/send', (req, res) => {
         from: email,
         to: "pmayer0289@gmail.com",
         subject: `Contact from ${name}: ${subject}`,
-        text: message,
+        text: `You received a new message from:\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
